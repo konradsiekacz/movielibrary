@@ -13,13 +13,18 @@ public class MovieController {
     @Autowired
     MovieRepository movieRepository;
 
-    @GetMapping("/")
-    public List<Movie> getAllMovies(){
+    @GetMapping("")
+    public List<Movie> getAllMovies() {
         return movieRepository.getAllMovies();
     }
+
     @GetMapping("/{id}")
-    public Movie getMovieById(@PathVariable("id") int id){
-       return movieRepository.getMovieById(id);
+    public Movie getMovieById(@PathVariable("id") int id) {
+        return movieRepository.getMovieById(id);
     }
 
+    @PostMapping("")
+    public int addMovies(@RequestBody List<Movie> movies) {
+        return movieRepository.addMovies(movies);
+    }
 }
