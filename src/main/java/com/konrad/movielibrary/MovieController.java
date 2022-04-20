@@ -1,7 +1,6 @@
 package com.konrad.movielibrary;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,8 +10,11 @@ import java.util.List;
 @RequestMapping("/movies")
 public class MovieController {
 
-    @Autowired
-    MovieRepository movieRepository;
+    private final MovieRepository movieRepository;
+
+    public MovieController(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
+    }
 
     @GetMapping("")
     @ResponseBody
@@ -38,16 +40,13 @@ public class MovieController {
     @PutMapping("/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public int updateMovie(@PathVariable("id") int id, @RequestBody Movie updatedMovie) {
+    public void updateMovie(@PathVariable("id") int id, @RequestBody Movie updatedMovie) {
         Movie movie = movieRepository.getMovieById(id);
 
         if (movie != null) {
             movie.setName(updatedMovie.getName());
             movie.setRating(updatedMovie.getRating());
             movieRepository.updateMovie(movie);
-            return 1;
-        } else {
-            return -1;
         }
     }
 
