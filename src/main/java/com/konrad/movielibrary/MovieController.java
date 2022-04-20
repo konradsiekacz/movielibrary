@@ -2,6 +2,7 @@ package com.konrad.movielibrary;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,21 +15,25 @@ public class MovieController {
     MovieRepository movieRepository;
 
     @GetMapping("")
+    @ResponseStatus(HttpStatus.OK)
     public List<Movie> getAllMovies() {
         return movieRepository.getAllMovies();
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Movie getMovieById(@PathVariable("id") int id) {
         return movieRepository.getMovieById(id);
     }
 
     @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
     public int addMovies(@RequestBody List<Movie> movies) {
         return movieRepository.addMovies(movies);
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public int updateMovie(@PathVariable("id") int id, @RequestBody Movie updatedMovie) {
         Movie movie = movieRepository.getMovieById(id);
 
@@ -43,6 +48,7 @@ public class MovieController {
     }
 
     @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public int partiallyUpdateMovie(@PathVariable("id") int id, @RequestBody Movie updatedMovie) {
         Movie movie = movieRepository.getMovieById(id);
 
@@ -59,6 +65,7 @@ public class MovieController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public int deleteMovieById(@PathVariable("id") int id) {
         return movieRepository.deleteMovie(id);
     }
