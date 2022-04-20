@@ -15,24 +15,28 @@ public class MovieController {
     MovieRepository movieRepository;
 
     @GetMapping("")
+    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public List<Movie> getAllMovies() {
         return movieRepository.getAllMovies();
     }
 
     @GetMapping("/{id}")
+    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public Movie getMovieById(@PathVariable("id") int id) {
         return movieRepository.getMovieById(id);
     }
 
     @PostMapping("")
+    @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public int addMovies(@RequestBody List<Movie> movies) {
-        return movieRepository.addMovies(movies);
+    public void addMovies(@RequestBody List<Movie> movies) {
+        movieRepository.addMovies(movies);
     }
 
     @PutMapping("/{id}")
+    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public int updateMovie(@PathVariable("id") int id, @RequestBody Movie updatedMovie) {
         Movie movie = movieRepository.getMovieById(id);
@@ -48,8 +52,9 @@ public class MovieController {
     }
 
     @PatchMapping("/{id}")
+    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public int partiallyUpdateMovie(@PathVariable("id") int id, @RequestBody Movie updatedMovie) {
+    public void partiallyUpdateMovie(@PathVariable("id") int id, @RequestBody Movie updatedMovie) {
         Movie movie = movieRepository.getMovieById(id);
 
         if (movie != null) {
@@ -57,16 +62,13 @@ public class MovieController {
             if (updatedMovie.getRating() > 0) movie.setRating(updatedMovie.getRating());
 
             movieRepository.updateMovie(movie);
-
-            return 1;
-        } else {
-            return -1;
         }
     }
 
     @DeleteMapping("/{id}")
+    @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public int deleteMovieById(@PathVariable("id") int id) {
-        return movieRepository.deleteMovie(id);
+    public void deleteMovieById(@PathVariable("id") int id) {
+        movieRepository.deleteMovie(id);
     }
 }

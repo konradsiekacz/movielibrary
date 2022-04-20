@@ -23,20 +23,19 @@ public class MovieRepository {
                 BeanPropertyRowMapper.newInstance(Movie.class), id);
     }
 
-    public int addMovies(List<Movie> movies) {
+    public void addMovies(List<Movie> movies) {
         movies.forEach(movie -> jdbcTemplate
                 .update("insert into movie(name, rating) values(?,?)",
                         movie.getName(), movie.getRating()
                 ));
-        return 1;
     }
 
-    public int updateMovie(Movie movie) {
-        return jdbcTemplate.update("update movie set name=?, rating=? where id=?",
+    public void updateMovie(Movie movie) {
+        jdbcTemplate.update("update movie set name=?, rating=? where id=?",
                 movie.getName(), movie.getRating(), movie.getId());
     }
 
-    public int deleteMovie(int id) {
-        return jdbcTemplate.update("delete from movie where " + "id = ?", id);
+    public void deleteMovie(int id) {
+        jdbcTemplate.update("delete from movie where " + "id = ?", id);
     }
 }
